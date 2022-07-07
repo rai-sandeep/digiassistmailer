@@ -1,0 +1,11 @@
+steps:
+- name: 'gcr.io/cloud-builders/mvn'
+  args: ['clean', 'verify']
+  dir: ''
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['functions', 'deploy', 'digiassist-mailer', 
+         'providers/cloud.firestore/eventTypes/document.write', 
+         '--trigger-resource', 'projects/gcms-oht29077u9-2022/databases/(default)/documents/ticket/{pushId}', 
+         '--runtime', 'java11', 
+         '--entry-point', 'com.digiassist.functions.FirestoreMailer']
+  dir: ''
