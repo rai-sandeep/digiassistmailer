@@ -1,4 +1,4 @@
-# digiassistmailer
+# Digi Assist Mailer
  Mailer for Digi Assist
 
 gcloud functions deploy FUNCTION_NAME \
@@ -28,6 +28,8 @@ gcloud functions deploy digiassist-mailer \
   https://cloud.google.com/functions/docs/deploying/filesystem
   
   https://cloud.google.com/functions/docs/testing/test-cicd#functions-prepare-environment-java
+  
+  https://cloud.google.com/build/docs/configuring-builds/substitute-variable-values
   
   
   gcloud iam service-accounts add-iam-policy-binding gcms-oht29077u9-2022@appspot.gserviceaccount.com \

@@ -1,4 +1,4 @@
-package com.digiassist.functions;
+package com.digiassist.mailer.functions;
 
 import java.text.MessageFormat;
 import java.util.Map.Entry;
@@ -6,17 +6,13 @@ import java.util.logging.Logger;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.digiassist.mailer.MailJetMailer;
+import com.digiassist.mailer.Mailer;
+import com.digiassist.mailer.domain.Email;
 import com.google.cloud.functions.Context;
 import com.google.cloud.functions.RawBackgroundFunction;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.mailjet.client.ClientOptions;
-import com.mailjet.client.MailjetClient;
-import com.mailjet.client.errors.MailjetException;
-import com.mailjet.client.transactional.SendContact;
-import com.mailjet.client.transactional.SendEmailsRequest;
-import com.mailjet.client.transactional.TransactionalEmail;
-import com.mailjet.client.transactional.response.SendEmailsResponse;
 
 public class FirestoreMailer implements RawBackgroundFunction {
 	private static final Logger logger = Logger.getLogger(FirestoreMailer.class.getName());
@@ -64,17 +60,9 @@ public class FirestoreMailer implements RawBackgroundFunction {
 	
 	private final String subjectPart = "Your Ticket has been {0} - Digi Assist Ticket Id {1}";
 	
-	private final MailjetClient client;
-	
-	public FirestoreMailer() {
-        ClientOptions options = ClientOptions.builder()
-                .apiKey(System.getenv("mailgun-apikey"))
-                .apiSecretKey(System.getenv("mailgun-apisecret"))
-                .build();
+	private final Mailer mailer = MailJetMailer.INSTANCE;
 
-        client = new MailjetClient(options);
-	}
-
+	@Override
 	public void accept(String json, Context context) throws Exception {
 		JsonObject body = gson.fromJson(json, JsonObject.class);
 		logger.info("Function triggered by event on: " + context.resource());
@@ -151,27 +139,15 @@ public class FirestoreMailer implements RawBackgroundFunction {
 			}
 		}
 		
-		sendEmail(emailId, candidateName, subject, emailBody);
-	}
-	
-	private void sendEmail(String emailId, String candidateName,
-			String subject, String emailBody) throws MailjetException {
-		
-        TransactionalEmail message = TransactionalEmail
-                .builder()
-                .to(new SendContact(emailId , candidateName))
-                .from(new SendContact(senderEmail, senderName))
-                .htmlPart(emailBody)
-                .subject(subject)
-                .build();
-
-        SendEmailsRequest request = SendEmailsRequest
-                .builder()
-                .message(message) 
-                .build();
-
-        SendEmailsResponse response = request.sendWith(client);
-        logger.info("SendEmailsResponse: "+response.toString());		
+		mailer.sendEmail(
+				Email.builder()
+				.body(emailBody)
+				.fromEmail(senderEmail)
+				.fromName(senderName)
+				.subject(subject)
+				.toEmail(emailId)
+				.toName(candidateName)
+				.build());
 	}
 
 	private String getField(JsonObject fields, String field) {

@@ -14,7 +14,6 @@
   <properties>
     <maven.compiler.target>11</maven.compiler.target>
     <maven.compiler.source>11</maven.compiler.source>
-    <java.version>11</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   
@@ -42,6 +41,13 @@
 	    <groupId>com.mailjet</groupId>
 	    <artifactId>mailjet-client</artifactId>
 	    <version>5.2.0</version>
-  </dependency>
+  </dependency>  
+  
+	<dependency>
+		<groupId>org.projectlombok</groupId>
+		<artifactId>lombok</artifactId>
+		<optional>true</optional>
+	    <version>1.18.24</version>
+	</dependency>
   </dependencies>
 </project>
