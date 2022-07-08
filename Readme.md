@@ -29,6 +29,8 @@ gcloud functions deploy digiassist-mailer \
   
   https://cloud.google.com/functions/docs/testing/test-cicd#functions-prepare-environment-java
   
+  https://cloud.google.com/build/docs/configuring-builds/substitute-variable-values
+  
   
   gcloud iam service-accounts add-iam-policy-binding gcms-oht29077u9-2022@appspot.gserviceaccount.com \
  --member serviceAccount:361531915277@cloudbuild.gserviceaccount.com \
