@@ -5,7 +5,7 @@ steps:
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['functions', 'deploy', 'digiassist-mailer', 
          '--trigger-event', 'providers/cloud.firestore/eventTypes/document.write', 
-         '--trigger-resource', 'projects/(default)/databases/(default)/documents/ticket/{pushId}', 
+         '--trigger-resource', 'projects/$PROJECT_ID/databases/(default)/documents/ticket/{pushId}', 
          '--runtime', 'java11', 
          '--entry-point', 'com.digiassist.mailer.functions.FirestoreMailer']
   dir: ''
