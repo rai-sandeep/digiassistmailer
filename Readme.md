@@ -1,4 +1,4 @@
-# digiassistmailer
+# Digi Assist Mailer
  Mailer for Digi Assist
 
 gcloud functions deploy FUNCTION_NAME \
