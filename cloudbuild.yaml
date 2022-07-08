@@ -7,5 +7,5 @@ steps:
          '--trigger-event', 'providers/cloud.firestore/eventTypes/document.write', 
          '--trigger-resource', 'projects/digiassist-354909/databases/(default)/documents/ticket/{pushId}', 
          '--runtime', 'java11', 
-         '--entry-point', 'com.digiassist.functions.FirestoreMailer']
+         '--entry-point', 'com.digiassist.mailer.functions.FirestoreMailer']
   dir: ''
